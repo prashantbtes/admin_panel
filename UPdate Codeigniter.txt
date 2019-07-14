@@ -1,0 +1,69 @@
+
+1.Blog.php
+
+ public function updatedata(){
+   $id=$this->input->get('id');
+   $result['data']=$this->Blog_Model->displayrecordsById($id);
+   $this->load->view('update',$result);
+
+
+if($this->input->post('Edit'))
+{
+	$n=$this->input->post('name');
+	$e=$this->input->post('email');
+	$m=$this->input->post('mobile');
+	$p=$this->input->post('password');
+	$i=$this->input->post('image');
+	$this->Blog_Model->updaterecords($n,$e,$m,$p,$i,$id);
+	redirect("Blog/disdata");
+}  }   
+}
+?>
+
+
+2.table.php
+
+echo "<td><a href='updatedata?id=".$row->id."'>Edit</a></td>";
+
+
+
+3.Blog_Model
+
+ function updaterecords($name,$email,$mobile,$password,$image,$id)
+  {
+  	$query=$this->db->query("update users SET name='$name',email='$email',mobile='$mobile',password='$password',image='$image' where id='".$id."'");
+  }
+
+
+
+4.update.php//form
+
+<!DOCTYPE html>
+<html>
+<head>
+	<title> Update Form</title>
+	<meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</head>
+<body class="bg-info">
+	<?php
+	$i=1;
+	foreach($data as $row)
+		{?>
+	<center><h2> Data UpDated with codeigniter </h2></center><br>
+<div class="container form-group col-md-4 col-md-offset-4">
+	<form id="form" method="post">
+	<input type="text" name="name" placeholder="Enter Your Name" value="<?php echo $row->name;?>" class="form-control"><br><br>
+	<input type="email" name="email" placeholder="Enter Your Email" value="<?php echo $row->email;?>"class="form-control"><br><br>
+	<input type="text" name="mobile" placeholder="Enter Your Mobile" value="<?php echo $row->mobile;?>" class="form-control"><br><br>
+	<input type="text" name="password" placeholder="Enter Your Password" value="<?php echo $row->password;?>" class="form-control"><br><br>
+	<input type="file" name="image" value="<?php echo $row->image;?>" class-="btn btn-user btn-primary"><br><br>
+	<button type="submit" name="submit" class="btn btn-primary col-md-4 col-md-offset-4">UpDate</button>
+</form></div>
+<?php
+ }
+ ?>
+</body>
+</html>
